@@ -4,7 +4,7 @@ import s from './FormInput.module.css';
 const FormInput = () => {
   return (
     <div className={s.formInput}>
-      <p>Name</p>
+      <p className={s.name}>Name</p>
       <input type="text" name="name" required />
       <button type="submit">Add contact</button>
     </div>
