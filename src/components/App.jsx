@@ -5,11 +5,10 @@ class App extends Component {
   state = {
     contacts: [],
     name: '',
-    id: '',
   };
 
   render() {
-    const { contacts, name, id } = this.state;
+    const { contacts, name } = this.state;
     return (
       <>
         <div
