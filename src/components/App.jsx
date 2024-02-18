@@ -60,7 +60,7 @@ class App extends Component {
   };
 
   render() {
-    const { contacts, name, number, searchValue } = this.state;
+    const { name, number, searchValue } = this.state;
     const filteredContacts = this.getFilteredData();
     return (
       <>
