@@ -1,14 +1,16 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class Filter extends Component {
-  render() {
-    return (
-      <>
-        <p>find contacts by name</p>
-        <input type="text" />
-      </>
-    );
-  }
-}
+const Filter = ({ searchValue, handleFilterContact }) => {
+  return (
+    <>
+      <p>find contacts by name</p>
+      <input
+        type="text"
+        onChange={e => handleFilterContact(e.target.value)}
+        value={searchValue}
+      />
+    </>
+  );
+};
 
 export default Filter;

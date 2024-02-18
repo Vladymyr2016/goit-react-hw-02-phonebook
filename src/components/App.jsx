@@ -20,18 +20,22 @@ class App extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const { name, number } = this.state;
+    const { name, number, contacts } = this.state;
 
     const newContact = {
       id: nanoid(),
       name,
       number,
     };
-    this.setState(prevState => ({
-      contacts: [...prevState.contacts, newContact],
-      name: '',
-      number: '',
-    }));
+    const isNameInclud = contacts.some(contact => contact.name === name);
+
+    isNameInclud
+      ? alert(`${name} already in contacts`)
+      : this.setState(prevState => ({
+          contacts: [...prevState.contacts, newContact],
+          name: '',
+          number: '',
+        }));
   };
 
   handleChange = e => {
@@ -40,12 +44,24 @@ class App extends Component {
 
   handleDeleteContact = id => {
     this.setState(prevState => ({
-      people: prevState.people.filter(man => man.id !== id),
+      contacts: prevState.contacts.filter(man => man.id !== id),
     }));
   };
 
+  handleFilterContact = value => {
+    this.setState({ searchValue: value });
+  };
+
+  getFilteredData = () => {
+    const { searchValue, contacts } = this.state;
+    return contacts.filter(man =>
+      man.name.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase())
+    );
+  };
+
   render() {
-    const { contacts, name, number } = this.state;
+    const { contacts, name, number, searchValue } = this.state;
+    const filteredContacts = this.getFilteredData();
     return (
       <>
         <div
@@ -67,9 +83,12 @@ class App extends Component {
           />
 
           <h2>Contacts</h2>
-          <Filter />
+          <Filter
+            searchValue={searchValue}
+            handleFilterContact={this.handleFilterContact}
+          />
           <ContactList
-            people={contacts}
+            people={filteredContacts}
             onDeleteContact={this.handleDeleteContact}
           />
         </div>
