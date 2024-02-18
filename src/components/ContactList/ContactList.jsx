@@ -1,14 +1,19 @@
 import React from 'react';
+import Contact from 'components/Contact/Contact';
 
-const ContactList = ({ people }) => {
+const ContactList = ({ people = [], onDeleteContact }) => {
   return (
     <>
-      <p>find contacts by name</p>
-      <input type="text" />
       <ul>
         <div>
           {people.map(man => {
-            return <li key={man.id}>{man.name}</li>;
+            return (
+              <Contact
+                key={man.id}
+                {...man}
+                onDeleteContact={onDeleteContact}
+              />
+            );
           })}
         </div>
       </ul>
@@ -17,25 +22,3 @@ const ContactList = ({ people }) => {
 };
 
 export default ContactList;
-
-// import React, { Component } from 'react';
-
-// class ContactList extends Component {
-//   render() {
-//     return (
-//       <>
-//         <p>find contacts by name</p>
-//         <input type="text" />
-//         <ul>
-//           <div>
-//             {}
-//             {/* <li key={id}>Vladymyr</li> */}
-//             <li>Vladymyr</li>
-//           </div>
-//         </ul>
-//       </>
-//     );
-//   }
-// }
-
-// export default ContactList;

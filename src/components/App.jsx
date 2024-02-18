@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import FormInput from './FormInput/FormInput';
 import ContactList from './ContactList/ContactList';
 import Filter from './Filter/Filter';
+import { nanoid } from 'nanoid';
 
 class App extends Component {
   state = {
@@ -14,6 +15,33 @@ class App extends Component {
     filter: '',
     name: '',
     number: '',
+    searchValue: '',
+  };
+
+  handleSubmit = e => {
+    e.preventDefault();
+    const { name, number } = this.state;
+
+    const newContact = {
+      id: nanoid(),
+      name,
+      number,
+    };
+    this.setState(prevState => ({
+      contacts: [...prevState.contacts, newContact],
+      name: '',
+      number: '',
+    }));
+  };
+
+  handleChange = e => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
+  handleDeleteContact = id => {
+    this.setState(prevState => ({
+      people: prevState.people.filter(man => man.id !== id),
+    }));
   };
 
   render() {
@@ -30,11 +58,20 @@ class App extends Component {
           }}
         >
           <h1>Phonebook</h1>
-          <FormInput />
+          <FormInput
+            // id={nanoid()}
+            name={name}
+            number={number}
+            handleSubmit={this.handleSubmit}
+            handleChange={this.handleChange}
+          />
 
           <h2>Contacts</h2>
           <Filter />
-          <ContactList people={contacts} />
+          <ContactList
+            people={contacts}
+            onDeleteContact={this.handleDeleteContact}
+          />
         </div>
       </>
     );
