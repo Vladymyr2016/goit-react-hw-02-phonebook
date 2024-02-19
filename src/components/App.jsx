@@ -13,33 +13,21 @@ class App extends Component {
       { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
     ],
     filter: '',
-    name: '',
-    number: '',
-    searchValue: '',
   };
 
-  handleSubmit = e => {
-    e.preventDefault();
-    const { name, number, contacts } = this.state;
+  addContact = man => {
+    const { contacts } = this.state;
+    console.log(man);
 
-    const newContact = {
-      id: nanoid(),
-      name,
-      number,
-    };
-    const isNameInclud = contacts.some(contact => contact.name === name);
-
+    const isNameInclud = contacts.some(contact => contact.name === man.name);
     isNameInclud
-      ? alert(`${name} already in contacts`)
+      ? alert(`${man.name} already in contacts`)
       : this.setState(prevState => ({
-          contacts: [...prevState.contacts, newContact],
-          name: '',
-          number: '',
+          contacts: [
+            ...prevState.contacts,
+            { name: man.name, number: man.number, id: nanoid() },
+          ],
         }));
-  };
-
-  handleChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
   };
 
   handleDeleteContact = id => {
@@ -49,19 +37,12 @@ class App extends Component {
   };
 
   handleFilterContact = value => {
-    this.setState({ searchValue: value });
-  };
-
-  getFilteredData = () => {
-    const { searchValue, contacts } = this.state;
-    return contacts.filter(man =>
-      man.name.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase())
-    );
+    this.setState({ filter: value });
   };
 
   render() {
-    const { name, number, searchValue } = this.state;
-    const filteredContacts = this.getFilteredData();
+    const { filter } = this.state;
+
     return (
       <>
         <div
@@ -74,21 +55,16 @@ class App extends Component {
           }}
         >
           <h1>Phonebook</h1>
-          <FormInput
-            // id={nanoid()}
-            name={name}
-            number={number}
-            handleSubmit={this.handleSubmit}
-            handleChange={this.handleChange}
-          />
+          <FormInput addContact={this.addContact} />
 
           <h2>Contacts</h2>
           <Filter
-            searchValue={searchValue}
+            filter={filter}
             handleFilterContact={this.handleFilterContact}
           />
           <ContactList
-            people={filteredContacts}
+            filter={filter}
+            contacts={this.state.contacts}
             onDeleteContact={this.handleDeleteContact}
           />
         </div>

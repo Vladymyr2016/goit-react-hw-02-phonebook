@@ -4,7 +4,7 @@ const Contact = ({ name, number, id, onDeleteContact }) => {
   return (
     <>
       <li key={id}>
-        {name} {number}{' '}
+        {name} {number}
         <button type="submit" onClick={() => onDeleteContact(id)}>
           Delete
         </button>

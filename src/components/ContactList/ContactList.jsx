@@ -1,12 +1,22 @@
 import React from 'react';
 import Contact from 'components/Contact/Contact';
 
-const ContactList = ({ people = [], onDeleteContact }) => {
+const ContactList = ({ contacts, onDeleteContact, filter }) => {
+  //   getFilteredData = (contacts, filter) => {
+  //     if (filter) {
+  //       return
+  //       );
+  //     }
+  //   };
+  const newArr = contacts.filter(man =>
+    man.name.toLowerCase().includes(filter.toLowerCase())
+  );
+  console.log(newArr);
   return (
     <>
       <ul>
         <div>
-          {people.map(man => {
+          {newArr.map(man => {
             return (
               <Contact
                 key={man.id}
